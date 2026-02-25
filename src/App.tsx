@@ -1,15 +1,21 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { SideBar } from './components/SideBar/SideBar'
-import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar'
+import { Home } from './pages/Home'
+import { ProtectedRoute } from './auth/ProtectedRoute'
+import { Dashboard } from './pages/Dashboard'
 
 function App() {
   return (
-    <SidebarProvider>
-      <SideBar />
-      <main>
-        <SidebarTrigger />
-      </main>
-    </SidebarProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
