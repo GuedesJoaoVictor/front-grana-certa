@@ -4,6 +4,8 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
 } from "@/components/ui/sidebar"
 import { Wallet } from "lucide-react"
 
@@ -23,7 +25,18 @@ export function SideBar() {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-            
+                    <SidebarMenu>
+                        <SidebarMenuButton variant="primary" asChild>
+                            <a href="#">
+                                Dashboard
+                            </a>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton variant="primary" asChild>
+                            <a href="#">
+                                Transactions
+                            </a>
+                        </SidebarMenuButton>
+                    </SidebarMenu>
                 </SidebarGroup>
                 <SidebarGroup />
             </SidebarContent>
