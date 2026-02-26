@@ -78,3 +78,21 @@ export function useAuth() {
   }
   return context;
 }
+
+export function useUserEmail() {
+  const email = useAuth().keycloak.tokenParsed?.email;
+  return email;
+}
+
+export function useUserName() {
+  const name = useAuth().keycloak.tokenParsed?.name;
+  return name;
+}
+
+export function useLogout() {
+  const { keycloak } = useAuth();
+
+  return () => {
+    keycloak.logout({ redirectUri: globalThis.location.origin });
+  };
+}

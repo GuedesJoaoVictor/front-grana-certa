@@ -481,7 +481,7 @@ const sidebarMenuButtonVariants = cva(
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
-        primary: "hover:bg-[#13c8ec] hover:text-white"
+        primary: "hover:bg-[#0EAD69] hover:text-white"
       },
       active: {
         true: "",
@@ -508,7 +508,7 @@ const sidebarMenuButtonVariants = cva(
       {
         variant: "primary",
         active: true,
-        class: "bg-[#13c8ec] text-white font-medium",
+        class: "bg-[#0EAD69] text-white font-medium",
       }
     ],
     defaultVariants: {
