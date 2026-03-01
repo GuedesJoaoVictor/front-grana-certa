@@ -1,5 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, } from "react";
 import keycloak from "./keycloak";
+import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 
 type AuthContextType = {
   keycloak: typeof keycloak;
@@ -7,20 +9,18 @@ type AuthContextType = {
 };
 
 function handleTokenRefreshError() {
-    console.log("Failed to refresh token, logging out");
-    keycloak.logout({ redirectUri: globalThis.location.origin });
-  }
-
+  console.log("Failed to refresh token, logging out");
+  keycloak.logout({ redirectUri: globalThis.location.origin });
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-
+export function AuthProvider({ children, }: Readonly<{ children: React.ReactNode }>) {
   const [authenticated, setAuthenticated] = useState(false);
   const [ready, setReady] = useState(false);
   const initialized = useRef(false);
 
-    useEffect(() => {
+  useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
 
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
         pkceMethod: "S256",
         checkLoginIframe: false,
       })
-      .then(auth => {
+      .then((auth) => {
         setAuthenticated(auth);
         setReady(true);
 
@@ -39,11 +39,9 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
           return;
         }
 
-        const interval = setInterval(() => {
+        keycloak.onTokenExpired = () => {
           keycloak.updateToken(30).catch(handleTokenRefreshError);
-        }, 1000 * 60 * 4);
-
-        return () => clearInterval(interval);
+        };
       });
   }, []);
 
@@ -55,19 +53,21 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
     localStorage.setItem("user_token", JSON.stringify(keycloak.tokenParsed));
   }, [authenticated]);
 
-  const contextValue = useMemo(
-    () => ({ keycloak, authenticated }),
-    [authenticated]
-  );
+  const contextValue = useMemo( () => ({ keycloak, authenticated }), [authenticated],);
 
   if (!ready) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        <Button disabled size="lg" variant="outline">
+          <Spinner className="size-6"/>
+          <div className="text-black">Loading...</div>
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 

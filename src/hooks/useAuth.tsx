@@ -11,7 +11,6 @@ export function useUser() {
         const fetchUser = async () => {
             try {
                 const response = await api.get("/test/private/me");
-                console.log("User data:", response);
                 setUser(response.data);
             } catch (error) {
                 console.error("Failed to fetch user data:", error);

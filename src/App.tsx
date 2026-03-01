@@ -1,17 +1,20 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Home } from './pages/Home'
 import { ProtectedRoute } from './auth/ProtectedRoute'
-import { Dashboard } from './pages/Dashboard'
+import { RoleGuard } from './auth/RoleGuard'
+import { AdminLayout } from './layouts/AdminLayout/AdminLayout'
+import { AuthRedirect } from './pages/AuthRedirect/AuthRedirect'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={
+        <Route path="/" element={<AuthRedirect />} />
+        <Route path="/admin/*" element={
           <ProtectedRoute>
-            <Dashboard />
+            <RoleGuard role="ADMIN">
+              <AdminLayout />
+            </RoleGuard>
           </ProtectedRoute>
         } />
       </Routes>
