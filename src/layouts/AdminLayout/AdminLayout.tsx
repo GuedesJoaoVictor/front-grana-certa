@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 export function AdminLayout() {
     return (
       <SidebarProvider>
-        <SideBar />
+        <SideBar type="ADMIN" />
         <main>
           <SidebarTrigger />
         </main>
