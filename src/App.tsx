@@ -4,6 +4,8 @@ import { ProtectedRoute } from './auth/ProtectedRoute'
 import { RoleGuard } from './auth/RoleGuard'
 import { AdminLayout } from './layouts/AdminLayout/AdminLayout'
 import { AuthRedirect } from './pages/AuthRedirect/AuthRedirect'
+import { Dashboard } from './pages/Dashboard/Dasboard'
+import { UserLayout } from './layouts/AdminLayout/UserLayout'
 
 function App() {
   return (
@@ -14,6 +16,13 @@ function App() {
           <ProtectedRoute>
             <RoleGuard role="ADMIN">
               <AdminLayout />
+            </RoleGuard>
+          </ProtectedRoute>
+        } />
+        <Route path='/app/*' element={
+          <ProtectedRoute>
+            <RoleGuard role="USER">
+              <UserLayout />
             </RoleGuard>
           </ProtectedRoute>
         } />

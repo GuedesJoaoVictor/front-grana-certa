@@ -95,4 +95,5 @@ export function useLogout() {
   return () => {
     keycloak.logout({ redirectUri: globalThis.location.origin });
   };
+
 }
